@@ -3,7 +3,7 @@ from useSpeechToText import useSpeechToText
 
 app = Flask(__name__)
 ffmpegAddress = r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"
-path = r'resources/twinkles.mp3'
+path = "transcribe/audio/jb.wav"
 
 @app.route("/")
 def testing():

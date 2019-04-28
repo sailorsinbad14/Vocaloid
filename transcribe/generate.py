@@ -30,6 +30,8 @@ def transpose(path, notes_dict, default_note, root_index, sr):
         transposed_notes.append(new_note)
         count += 1
         last_note = note
+        # for i in range(len(new_note)):
+        print(new_note)
 
     same = np.asarray(transposed_notes).reshape(-1, )
     librosa.output.write_wav(path, same, sr)
@@ -39,4 +41,7 @@ def full_transcribe(input, output, default_sound='c4.wav', notes_per_second=10):
     default_note, root_index, sr = get_default('c4.wav')
     transpose('asdf.wav', notes_dict, default_note, root_index, sr)
 
+
+
 full_transcribe('audio/cscale.wav', 'asdf.wav', 'c4.wav')
+

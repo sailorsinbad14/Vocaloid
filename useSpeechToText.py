@@ -18,10 +18,10 @@ def useSpeechToText(ffmpegAddress, path):
     # conver to wav
     from pydub import AudioSegment
 
-    AudioSegment.converter = ffmpegAddress
+    # AudioSegment.converter = ffmpegAddress
 
 
-
+    print ("hello")
     baseName= os.path.basename(path)
     print(baseName)
     song = AudioSegment.from_mp3(path)
@@ -52,15 +52,14 @@ def useSpeechToText(ffmpegAddress, path):
         language_code=first_lang,
         alternative_language_codes=[second_lang, third_lang],
         enable_word_time_offsets=True
-
     )
 
     # operation = client.long_running_recognize(config, audio)
 
     # Detects speech in the audio file;
-
+    # print (audio, config)
     response = client.recognize(config, audio)
-    # print(response)
+    print(response)
     output = 'Transcript: \n'
     for result in response.results:
         alternative = result.alternatives[0]
@@ -68,7 +67,6 @@ def useSpeechToText(ffmpegAddress, path):
 
         # print('Transcript: {}'.format(result.alternatives[0].transcript))
     speaking = output
-
     from getTimestamps import getTimestamps
 
     # print(getTimestamps(response))
@@ -81,16 +79,15 @@ def useSpeechToText(ffmpegAddress, path):
 
     from detectLanguage import detectLanguage
 
-    # print(detectLanguage(lang))
     output += detectLanguage(lang)+'<br>'
 
-    from useTextToSpeech import useTextToSpeech
-
-    useTextToSpeech(speaking, lang, 0.8)
-
-    # print(output)
     return output
 
+def speak(speaking):
+    from useTextToSpeech import useTextToSpeech
+    # lang = detect(result.alternatives[0].transcript)
+
+    useTextToSpeech(speaking, "en-US-Standard-B", 0.8)
     # for word_info in alternative.words:
     #     word = word_info.word
     #     start_time = word_info.start_time

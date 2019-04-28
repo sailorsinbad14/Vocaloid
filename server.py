@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
 from useSpeechToText import useSpeechToText
 
-app = Flask(__name__, static_folder='website')
+app = Flask(__name__, static_folder='website/')
+ffmpegAddress = r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"
+path = "transcribe/audio/jb.wav"
 
 @app.route("/")
 def root():

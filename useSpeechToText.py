@@ -9,26 +9,35 @@ from detectLanguage import detectLanguage
 import io
 import os
 
-
-def useSpeechToText(ffmpegAddress, path):
+#numb_.flac
+def useSpeechToText( path):
     client = speech.SpeechClient()
 
     # AudioSegment.converter = ffmpegAddress
 
     baseName= os.path.basename(path)
-    song = AudioSegment.from_mp3(path)
-    file_basename = baseName[0:len(baseName) - 3] + 'flac'
+    # song = AudioSegment.from(path)
+    # file_basename = baseName[0:len(baseName) - 4] + 'flac'
     file_name = os.path.join(
         os.path.dirname(__file__),
-        'resources',
-        file_basename)
+        'transcribe/audio',
+        baseName)
 
-    song.export(file_name, format="flac")
+    # song.export(file_name, format="flac")
 
 
     first_lang = 'en-US'
-    second_lang = 'ja-JP'
-    third_lang = 'zh'
+    Japanese = 'ja-JP'
+    Chinese = 'zh'
+    # Deutsch = 'de-DE'
+    # Español = 'es'
+    # Français = 'fr'
+    # Italiano = 'it-IT'
+    # Nederlands = 'nl-NL'
+    # Português = 'pt'
+    # Русский = 'ru-RU'
+    # العربية = 'ar'
+    # 한국어 = 'ko-KR'
     # Loads the audio into memory
     with io.open(file_name, 'rb') as audio_file:
         content = audio_file.read()
@@ -36,10 +45,11 @@ def useSpeechToText(ffmpegAddress, path):
 
     config = speech.types.RecognitionConfig(
         encoding=enums.RecognitionConfig.AudioEncoding.FLAC,
-        sample_rate_hertz=song.frame_rate,
-        audio_channel_count=song.channels,
+        # sample_rate_hertz=song.frame_rate,
+        sample_rate_hertz=44100,
+        audio_channel_count=2,
         language_code=first_lang,
-        # alternative_language_codes=[second_lang, third_lang],
+       # alternative_language_codes=[Japanese, Chinese,Deutsch,Español,Français, Italiano, Nederlands, Português, Русский, العربية, 한국어],
         enable_word_time_offsets=True
     )
 

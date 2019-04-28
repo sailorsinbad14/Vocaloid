@@ -22,7 +22,7 @@ def useSpeechToText( path):
         os.path.dirname(__file__),
         'transcribe/audio',
         baseName)
-
+    print (file_name)
     # song.export(file_name, format="flac")
 
 

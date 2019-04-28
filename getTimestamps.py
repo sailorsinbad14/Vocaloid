@@ -1,8 +1,9 @@
-def getTimestamps(response):
+def getTimestamps( response):
     same = dict()
 
     timestamps = '\nTimestamps:'
     # print (response.results)
+
     for result in response.results:
         alternative = result.alternatives[0]
         for word_info in alternative.words:
@@ -15,8 +16,8 @@ def getTimestamps(response):
                 start_time.seconds + start_time.nanos * 1e-9,
                 word
                 )
-    return same, timestamps
 
+    return same, timestamps
  # timestamps +='\n' + 'Word: {}  < {} - {}'.format(
  #                word,
  #                start_time.seconds + start_time.nanos * 1e-9,

@@ -1,41 +1,30 @@
+from getTimestamps import getTimestamps
+from google.cloud import speech_v1p1beta1 as speech
+from google.cloud.speech import enums
+from google.cloud.speech import types
+from pydub import AudioSegment
+from langdetect import  detect
+from useTextToSpeech import useTextToSpeech
+from detectLanguage import detectLanguage
+import io
+import os
+
+
 def useSpeechToText(ffmpegAddress, path):
-    import io
-    import os
-
-    # Imports the Google Cloud client library
-    from google.cloud import speech_v1p1beta1 as speech
-    # from google.cloud import speech
-    from google.cloud.speech import enums
-    from google.cloud.speech import types
-    # ffmpegAddress = r"C:\Program Files\ffmpeg\bin\ffmpeg.exe"
-    # path = r'C:\Users\lbm4\PycharmProjects\Vocaloid\resources\japan.mp3'
-    # print('Credendtials from environ: {}'.format(
-    #     os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')))
-    # Instantiates a client
-
-
     client = speech.SpeechClient()
-    # conver to wav
-    from pydub import AudioSegment
 
     # AudioSegment.converter = ffmpegAddress
 
-
-    print ("hello")
     baseName= os.path.basename(path)
-    print(baseName)
     song = AudioSegment.from_mp3(path)
     file_basename = baseName[0:len(baseName) - 3] + 'flac'
-    print(file_basename)
     file_name = os.path.join(
         os.path.dirname(__file__),
         'resources',
         file_basename)
-    print(file_name)
 
     song.export(file_name, format="flac")
 
-    # print(file_name)
 
     first_lang = 'en-US'
     second_lang = 'ja-JP'
@@ -50,7 +39,7 @@ def useSpeechToText(ffmpegAddress, path):
         sample_rate_hertz=song.frame_rate,
         audio_channel_count=song.channels,
         language_code=first_lang,
-        alternative_language_codes=[second_lang, third_lang],
+        # alternative_language_codes=[second_lang, third_lang],
         enable_word_time_offsets=True
     )
 
@@ -59,35 +48,25 @@ def useSpeechToText(ffmpegAddress, path):
     # Detects speech in the audio file;
     # print (audio, config)
     response = client.recognize(config, audio)
-    print(response)
+
     output = 'Transcript: \n'
     for result in response.results:
         alternative = result.alternatives[0]
         output += ' {}'.format(result.alternatives[0].transcript)
-
-        # print('Transcript: {}'.format(result.alternatives[0].transcript))
     speaking = output
-    from getTimestamps import getTimestamps
 
-    # print(getTimestamps(response))
+    same, display = getTimestamps(response)
 
-    output +=  '<br>' + getTimestamps(response)+'<br>'
-    # print(output)
-    from langdetect import  detect
+    language = first_lang
 
-    lang = detect(result.alternatives[0].transcript)
+    return same, display, language
 
-    from detectLanguage import detectLanguage
-
-    output += detectLanguage(lang)+'<br>'
-
-    return output
-
-def speak(speaking):
-    from useTextToSpeech import useTextToSpeech
-    # lang = detect(result.alternatives[0].transcript)
-
-    useTextToSpeech(speaking, "en-US-Standard-B", 0.8)
+def speak(text):
+    try:
+        useTextToSpeech(text, "en-US", 0.8)
+        return "works"
+    except:
+        return "404 here but im lazy"
     # for word_info in alternative.words:
     #     word = word_info.word
     #     start_time = word_info.start_time

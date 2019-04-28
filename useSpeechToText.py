@@ -23,16 +23,19 @@ def useSpeechToText(ffmpegAddress, path):
 
 
     baseName= os.path.basename(path)
-
+    print(baseName)
     song = AudioSegment.from_mp3(path)
+    file_basename = baseName[0:len(baseName) - 3] + 'flac'
+    print(file_basename)
     file_name = os.path.join(
         os.path.dirname(__file__),
         'resources',
-        'japan.flac')
+        file_basename)
+    print(file_name)
+
     song.export(file_name, format="flac")
 
-
-    print(file_name)
+    # print(file_name)
 
     first_lang = 'en-US'
     second_lang = 'ja-JP'
@@ -64,23 +67,29 @@ def useSpeechToText(ffmpegAddress, path):
         output += ' {}'.format(result.alternatives[0].transcript)
 
         # print('Transcript: {}'.format(result.alternatives[0].transcript))
-    print(output)
+    speaking = output
 
     from getTimestamps import getTimestamps
 
-    getTimestamps(response)
+    # print(getTimestamps(response))
 
+    output +=  '<br>' + getTimestamps(response)+'<br>'
+    # print(output)
     from langdetect import  detect
 
     lang = detect(result.alternatives[0].transcript)
 
     from detectLanguage import detectLanguage
 
-    detectLanguage(lang)
+    # print(detectLanguage(lang))
+    output += detectLanguage(lang)+'<br>'
 
     from useTextToSpeech import useTextToSpeech
 
-    useTextToSpeech(output, lang, 0.6)
+    useTextToSpeech(speaking, lang, 0.8)
+
+    # print(output)
+    return output
 
     # for word_info in alternative.words:
     #     word = word_info.word

@@ -4,8 +4,8 @@ def detectLanguage(lang):
        language = 'JAPANESE'
     elif(lang =='zh'):
         language = 'CHINESE'
-    elif(lang == 'en-US'):
+    elif(lang == 'en'):
         language = 'ENGLISH'
     else:
        language = "Cannot recognize this language..."
-    print('LANGUAGE: ' + language)
+    return  'LANGUAGE: ' + language

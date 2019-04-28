@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta class="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Evie by unDraw</title>
+	<!-- Don't forget to add your metadata here -->
+	<link rel='stylesheet' href='/css/style.min.css' />
+</head>
+<body>
+	<!-- Hero(extended) navbar -->
+	<div class="navbar navbar--extended">
+		<nav class="nav__mobile"></nav>
+		<div class="container">
+			<div class="navbar__inner">
+				<!-- <a href="index.html" class="navbar__logo" style="margin:auto; font-size:30px;">Some Artsy Ass Shit</a> -->
+			</div>
+		</div>
+	</div>
+	<!-- Hero unit -->
+	<div class="hero">
+		<div class="hero__overlay hero__overlay--gradient"></div>
+		<div class="hero__mask"></div>
+		<div class="hero__inner">
+			<div class="container">
+				<div class="hero__content">
+					<div class="hero__content__inner" id='navConverter'>
+						<h1 class="hero__title">Some artsy ass shit</h1>
+						<div class="fileUpload button button__accent">
+					    <span>Upload</span>
+					    <input type="file" id="file" class="upload" />
+						</div>
+						<div class="same">
+							<hr>
+							<a href="http://localhost:8000/getvocal" class="button hero__button">Get Vocal </a>
+							<a href="http://localhost:8000/getnonvocal" class="button hero__button">Get Nonvocal</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+function handleFiles() {
+  let audio = document.getElementById("file").files[0];
+  let req = new XMLHttpRequest();
+  let formData = new FormData();
+
+  formData.append("audio", audio);
+  fetch('http://localhost:8000/upload', {method: "POST", body: formData});
+}
+
+document.getElementById("file").addEventListener("change", handleFiles, false);
+</script>
+</body>
+</html>
